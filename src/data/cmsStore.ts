@@ -52,9 +52,8 @@ export const DEFAULT_SITE_DATA: SiteData = {
     headerTitle: 'Encuéntranos en San Miguel',
     headerDesc: 'Un enclave en la costa limeña concebido para el encuentro personal, el retiro de encargos finos y la exploración de notas aromáticas de nuestra chocolatería.',
     scheduleTitle: 'Horario de atención',
-    schedulePlaceholder: 'Lunes a Sábado: 10:00 am – 7:00 pm
-Domingos y feriados: 11:00 am – 5:00 pm',
-    scheduleNotice: 'Horarios sujetos a cambio en temporadas especiales. Para visitas privadas y retiro de encargos finos, conúctenos previamente por WhatsApp.',
+    schedulePlaceholder: 'Lunes a Sábado: 10:00 am – 7:00 pm | Domingos y feriados: 11:00 am – 5:00 pm',
+    scheduleNotice: 'Horarios sujetos a cambio en temporadas especiales. Para visitas privadas y retiro de encargos finos, contáctenos previamente por WhatsApp.',
     ref1Title: 'Eje Costero',
     ref1Subtitle: 'Costa Verde & Av. Costanera',
     ref1Desc: 'Accesible rápidamente desde el circuito de playas y la avenida Costanera, ascendiendo por las vías transversales hacia el corazón tradicional de San Miguel.',
