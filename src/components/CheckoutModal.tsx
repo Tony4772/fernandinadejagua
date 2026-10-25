@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { BrandConfig } from '../types';
 import { CULQI_PUBLIC_KEY, isCulqiConfigured, isCulqiTestMode, YAPE_MAX_AMOUNT_CENTS } from '../config';
 import { CartItem, cartTotal, formatSoles, toCents } from '../lib/cart';
@@ -79,7 +79,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
   const validate = (): string | null => {
     if (form.name.trim().length < 3) return 'Ingresa tu nombre completo.';
-    if (!/^[^\\s@]+@[^\\s@]+\.[^\\s@]{2,}$/.test(form.email.trim())) return 'Ingresa un correo electrónico válido.';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email.trim())) return 'Ingresa un correo electrónico válido.';
     if (form.phone.replace(/\D/g, '').length < 6) return 'Ingresa un teléfono de contacto válido.';
     if (items.length === 0) return 'Tu carrito está vacío.';
     if (paymentMethod === 'yape' && isYapeExceedsLimit) {
