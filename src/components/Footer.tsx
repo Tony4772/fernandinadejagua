@@ -5,6 +5,7 @@ interface FooterProps {
   onRouteChange: (route: PageRoute) => void;
   onOpenPrivacy: () => void;
   onOpenAdmin: () => void;
+  onOpenReclamaciones: () => void;
   brand: BrandConfig;
 }
 
@@ -12,6 +13,7 @@ export const Footer: React.FC<FooterProps> = ({
   onRouteChange,
   onOpenPrivacy,
   onOpenAdmin,
+  onOpenReclamaciones,
   brand,
 }) => {
   const handleNav = (route: PageRoute) => {
@@ -93,6 +95,13 @@ export const Footer: React.FC<FooterProps> = ({
                 Política de Privacidad
               </button>
               <button
+                onClick={onOpenReclamaciones}
+                className="text-left text-primary-fixed-dim hover:text-surface-bright transition-colors cursor-pointer flex items-center gap-1.5"
+              >
+                <span className="material-symbols-outlined text-[16px] text-[#f87171]">menu_book</span>
+                <span>Libro de Reclamaciones</span>
+              </button>
+              <button
                 onClick={onOpenAdmin}
                 className="text-left text-secondary-fixed hover:text-surface-bright transition-colors cursor-pointer font-medium flex items-center gap-1.5 mt-1"
               >
@@ -115,12 +124,32 @@ export const Footer: React.FC<FooterProps> = ({
               </p>
             </div>
           </div>
-          <div aria-label="Medios de pago aceptados" className="flex flex-wrap gap-2">
-            <span className="rounded-md bg-white px-2.5 py-1.5 font-label-sm text-label-sm font-bold tracking-wide text-[#1a1f71]">VISA</span>
-            <span className="rounded-md bg-white px-2.5 py-1.5 font-label-sm text-label-sm font-bold text-[#222222]">Mastercard</span>
-            <span className="rounded-md bg-white px-2.5 py-1.5 font-label-sm text-label-sm font-bold text-[#2e77bc]">AMEX</span>
-            <span className="rounded-md bg-white px-2.5 py-1.5 font-label-sm text-label-sm font-bold text-[#0079be]">Diners Club</span>
-            <span className="rounded-md bg-white px-2.5 py-1.5 font-label-sm text-label-sm font-bold text-[#6500c8]">Yape</span>
+          <div className="flex flex-wrap items-center gap-3">
+            <div aria-label="Medios de pago aceptados" className="flex flex-wrap gap-2">
+              <span className="rounded-md bg-white px-2.5 py-1.5 font-label-sm text-label-sm font-bold tracking-wide text-[#1a1f71]">VISA</span>
+              <span className="rounded-md bg-white px-2.5 py-1.5 font-label-sm text-label-sm font-bold text-[#222222]">Mastercard</span>
+              <span className="rounded-md bg-white px-2.5 py-1.5 font-label-sm text-label-sm font-bold text-[#2e77bc]">AMEX</span>
+              <span className="rounded-md bg-white px-2.5 py-1.5 font-label-sm text-label-sm font-bold text-[#0079be]">Diners Club</span>
+              <span className="rounded-md bg-white px-2.5 py-1.5 font-label-sm text-label-sm font-bold text-[#6500c8]">Yape</span>
+            </div>
+            {/* Libro de Reclamaciones Badge */}
+            <button
+              onClick={onOpenReclamaciones}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#241713] border border-[#5c3d2e] hover:border-secondary-fixed transition-colors text-left group cursor-pointer"
+              title="Libro de Reclamaciones Virtual - Ley N° 29571"
+            >
+              <div className="w-6 h-6 rounded bg-[#b91c1c] flex items-center justify-center flex-shrink-0">
+                <span className="material-symbols-outlined text-white text-[14px]">menu_book</span>
+              </div>
+              <div className="leading-tight">
+                <span className="font-label-sm text-[11px] font-bold text-surface-bright group-hover:text-secondary-fixed block">
+                  Libro de Reclamaciones
+                </span>
+                <span className="font-body-sm text-[10px] text-primary-fixed-dim block">
+                  Ley N° 29571
+                </span>
+              </div>
+            </button>
           </div>
         </div>
 
@@ -133,6 +162,13 @@ export const Footer: React.FC<FooterProps> = ({
               className="hover:text-surface-bright transition-colors cursor-pointer"
             >
               Política de Privacidad
+            </button>
+            <span>·</span>
+            <button
+              onClick={onOpenReclamaciones}
+              className="hover:text-surface-bright transition-colors cursor-pointer text-[#f87171]"
+            >
+              Libro de Reclamaciones
             </button>
             <span>·</span>
             <span>San Miguel, Lima</span>

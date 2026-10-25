@@ -17,6 +17,7 @@ import { AdminView } from './views/AdminView';
 import { ProductModal } from './components/ProductModal';
 import { ConciergeModal } from './components/ConciergeModal';
 import { PrivacyModal } from './components/PrivacyModal';
+import { ReclamacionesModal } from './components/ReclamacionesModal';
 import { AdminLoginModal } from './components/AdminLoginModal';
 import { CartDrawer } from './components/CartDrawer';
 import { CheckoutModal } from './components/CheckoutModal';
@@ -38,6 +39,7 @@ export default function App() {
   const [modalProduct, setModalProduct] = useState<Product | null>(null);
   const [conciergeModalOpen, setConciergeModalOpen] = useState(false);
   const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
+  const [reclamacionesModalOpen, setReclamacionesModalOpen] = useState(false);
   const [adminLoginModalOpen, setAdminLoginModalOpen] = useState(false);
   const [cartItems, setCartItems] = useState<CartItem[]>(() => loadCart());
   const [cartOpen, setCartOpen] = useState(false);
@@ -235,6 +237,7 @@ export default function App() {
         onRouteChange={handleRouteChange}
         onOpenPrivacy={() => setPrivacyModalOpen(true)}
         onOpenAdmin={handleOpenAdmin}
+        onOpenReclamaciones={() => setReclamacionesModalOpen(true)}
         brand={siteData.brand}
       />
 
@@ -285,6 +288,12 @@ export default function App() {
       <PrivacyModal
         isOpen={privacyModalOpen}
         onClose={() => setPrivacyModalOpen(false)}
+      />
+
+      <ReclamacionesModal
+        isOpen={reclamacionesModalOpen}
+        onClose={() => setReclamacionesModalOpen(false)}
+        brand={siteData.brand}
       />
 
       <AdminLoginModal

@@ -81,6 +81,89 @@ export function createCmsApp({ getSecret }) {
     }
   });
 
+  router.post('/reclamaciones', async (req, res) => {
+    try {
+      const { consumidor, reclamo, proveedor } = req.body || {};
+      if (!consumidor || !reclamo) {
+        return res.status(400).json({ success: false, error: 'Faltan datos del reclamo.' });
+      }
+
+      const nombre = String(consumidor.nombreCompleto || '').trim();
+      const numDoc = String(consumidor.numeroDocumento || '').trim();
+      const tipoDoc = String(consumidor.tipoDocumento || 'DNI').trim();
+      const email = String(consumidor.email || '').trim().toLowerCase();
+      const telefono = String(consumidor.telefono || '').trim();
+
+      const tipo = String(reclamo.tipo || 'reclamo').trim().toLowerCase();
+      const descripcionBien = String(reclamo.descripcionBien || '').trim();
+      const descripcionProblema = String(reclamo.descripcionProblema || '').trim();
+      const pedidoSolicitado = String(reclamo.pedidoSolicitado || '').trim();
+      const montoReclamado = reclamo.montoReclamado ? Number(reclamo.montoReclamado) : null;
+
+      if (!nombre || nombre.length < 3) {
+        return res.status(400).json({ success: false, error: 'Ingresa tu nombre completo.' });
+      }
+      if (!numDoc) {
+        return res.status(400).json({ success: false, error: 'Ingresa tu número de documento.' });
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+        return res.status(400).json({ success: false, error: 'Ingresa un correo electrónico válido.' });
+      }
+      if (!telefono || telefono.length < 6) {
+        return res.status(400).json({ success: false, error: 'Ingresa un número de contacto válido.' });
+      }
+      if (!descripcionBien) {
+        return res.status(400).json({ success: false, error: 'Describe el producto o servicio contratado.' });
+      }
+      if (!descripcionProblema) {
+        return res.status(400).json({ success: false, error: 'Describe el detalle del reclamo o queja.' });
+      }
+      if (!pedidoSolicitado) {
+        return res.status(400).json({ success: false, error: 'Ingresa la acción o solución solicitada.' });
+      }
+
+      const prefix = tipo === 'queja' ? 'QUE' : 'REC';
+      const now = new Date();
+      const stamp = [
+        now.getFullYear(),
+        String(now.getMonth() + 1).padStart(2, '0'),
+        String(now.getDate()).padStart(2, '0'),
+      ].join('');
+      const rand = Math.random().toString(36).substring(2, 6).toUpperCase();
+      const codigo = `${prefix}-${stamp}-${rand}`;
+
+      const db = getFirestore();
+      await db.collection('reclamaciones').doc(codigo).set({
+        codigo,
+        fecha: now.toISOString(),
+        estado: 'pendiente',
+        proveedor: {
+          razonSocial: proveedor?.razonSocial || 'EBYZOM E.I.R.L.',
+          ruc: proveedor?.ruc || '00000000000',
+        },
+        consumidor: {
+          nombreCompleto: nombre,
+          tipoDocumento: tipoDoc,
+          numeroDocumento: numDoc,
+          telefono,
+          email,
+        },
+        reclamo: {
+          tipo,
+          descripcionBien,
+          descripcionProblema,
+          montoReclamado,
+          pedidoSolicitado,
+        },
+      });
+
+      return res.status(201).json({ success: true, codigo });
+    } catch (error) {
+      console.error('Error registrando reclamo:', error);
+      return res.status(500).json({ success: false, error: 'Error interno registrando la reclamación.' });
+    }
+  });
+
   const app = express();
   app.use(express.json({ limit: '3mb' }));
   // Firebase Hosting conserva el prefijo del rewrite al invocar la función.

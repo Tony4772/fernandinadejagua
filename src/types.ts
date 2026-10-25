@@ -34,6 +34,7 @@ export interface BrandConfig {
   subName: string;
   tagline: string;
   companyName: string;
+  ruc?: string;
   address: string;
   district: string;
   zone: string;
