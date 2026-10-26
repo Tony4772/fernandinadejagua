@@ -11,7 +11,7 @@ export const BRAND_INFO = {
   whatsappNumber: '906 591 037',
   whatsappUrl: 'https://wa.me/51906591037',
   googleMapsUrl: 'https://maps.google.com/?q=Jr.+Comandante+Juan+Guillermo+Moore+296,+San+Miguel,+Lima,+Peru',
-  logoUrl: 'https://lh3.googleusercontent.com/aida/AEtjO1XgS194rmpMVmsu7ZxJSU6rRsFuHF4O8B_zRNENRfuSs_oagXruylRTI0SDMiVqCf8axjQMwCjdGsE9g77u-YnjoRnv4bCv98XOkAkagt_y4NuC6phODGZ_zYkV9J1qBBRk5xFp2ZjxO9AVAHy49m7GnjltmucYDMHLYheSBjgfhrfHyRuHnwfy4e2d8Ocr948vMoRsGNeArBktKJoQ3DLaC1--lS3KRhsaq-EitSE2uDno7SfGM7AvySy7ERESR-ic4PpvrP6PBQ',
+  logoUrl: '/logo.png',
   heroBgUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAZO0SjunW9PAM3zWRiNq7OSnY_dJm7_U4n5GsUWKJcnHBv9qz8B-hvYPkwJRtEvJJPXCho89DAJGxEM4_WEK4DHdipXh_ldRQalHJqZhEqQtD4cMu4-NxsTG5kCV8pGnFB-jNnGMpir_DvAI8B5f_SAbwnmZ1YKEIlmYkCm9ZZVP1hhUGN9iENBDjcZyaGuUtkG3dRTJy7cwYP6a2Dwi8Jp2XNXKzi-P-BOrkJHFGeidhZe3DHEWRn',
   mapImageUrl: '',
   ambientImageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB4dgKAy6-Uoz3AoGJtobWTTMTCL8LPpZprPRGBNgI4xDwn0jJ0oT0y89CDc0hKvnAVv3kFkUZ6dgYkpltXl2p34FSFjmzDC0SCX4d50t56N-fkXuZaz0aSw6GmDy0x1pOAVoQy5UOvv64MSXY9fOTdK5MrhUHtp1ghPSZWmLRJ1AEPbNNTH0CYRQnPajoV26BrqcJ9FpZHwSoFUOmLE_FWpS6zwJhTS2uEIUDrbziYtnhT4bt2zjh0',

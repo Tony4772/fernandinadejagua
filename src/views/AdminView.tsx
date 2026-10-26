@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Product, ProductCategory, SiteData } from '../types';
+import { Product, ProductCategory, SiteData, StoreScheduleConfig } from '../types';
 import { updateAdminPassword } from '../data/cmsStore';
 import { googleMapsEmbedUrl, googleMapsSearchUrl } from '../lib/maps';
+import { ScheduleEditor } from '../components/ScheduleEditor';
+import { formatScheduleSummary } from '../lib/schedule';
 
 interface AdminViewProps {
   siteData: SiteData;
@@ -143,6 +145,17 @@ export const AdminView: React.FC<AdminViewProps> = ({
       catalog: {
         ...siteData.catalog,
         [field]: value,
+      },
+    });
+  };
+
+  const handleUpdateSchedule = (updatedSchedule: StoreScheduleConfig) => {
+    onUpdateSiteData({
+      ...siteData,
+      schedule: updatedSchedule,
+      visit: {
+        ...siteData.visit,
+        schedulePlaceholder: formatScheduleSummary(updatedSchedule),
       },
     });
   };
@@ -753,29 +766,12 @@ export const AdminView: React.FC<AdminViewProps> = ({
                       className="w-full p-2.5 rounded bg-[#1a100d] border border-[#3e2821] text-surface focus:border-secondary focus:outline-none"
                     />
                   </div>
-                  <div>
-                    <label className="block text-xs uppercase text-primary-fixed-dim mb-1 font-label-sm">
-                      Texto Placeholder de Horario
-                    </label>
-                    <input
-                      type="text"
-                      value={siteData.visit.schedulePlaceholder}
-                      onChange={(e) => handleUpdateVisitText('schedulePlaceholder', e.target.value)}
-                      className="w-full p-2.5 rounded bg-[#1a100d] border border-[#3e2821] text-surface focus:border-secondary focus:outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs uppercase text-primary-fixed-dim mb-1 font-label-sm">
-                      Nota de Horario
-                    </label>
-                    <input
-                      type="text"
-                      value={siteData.visit.scheduleNotice}
-                      onChange={(e) => handleUpdateVisitText('scheduleNotice', e.target.value)}
-                      className="w-full p-2.5 rounded bg-[#1a100d] border border-[#3e2821] text-surface focus:border-secondary focus:outline-none"
-                    />
-                  </div>
                 </div>
+
+                <ScheduleEditor
+                  schedule={siteData.schedule}
+                  onChange={handleUpdateSchedule}
+                />
 
                 <h3 className="font-headline-sm text-base text-secondary-fixed border-b border-[#3a251e] pb-2 pt-4">
                   Guías de Accesibilidad &amp; Llegada
@@ -1044,6 +1040,11 @@ export const AdminView: React.FC<AdminViewProps> = ({
                 </p>
               </div>
             </div>
+
+            <ScheduleEditor
+              schedule={siteData.schedule}
+              onChange={handleUpdateSchedule}
+            />
 
             {/* Change Password Form */}
             <div className="pt-6 border-t border-[#3a251e]">

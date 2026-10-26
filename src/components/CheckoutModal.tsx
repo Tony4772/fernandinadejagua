@@ -1,11 +1,13 @@
 ﻿import React, { useEffect, useState } from 'react';
-import { BrandConfig } from '../types';
+import { BrandConfig, StoreScheduleConfig } from '../types';
+import { evaluateStoreSchedule } from '../lib/schedule';
 import { CULQI_PUBLIC_KEY, isCulqiConfigured, isCulqiTestMode, YAPE_MAX_AMOUNT_CENTS } from '../config';
 import { CartItem, cartTotal, formatSoles, toCents } from '../lib/cart';
 import { createOrder, payOrder, PaymentApiError } from '../lib/api';
 import { openCulqiCheckout, CulqiPaymentMethod, isYapeToken } from '../lib/culqi';
 
 interface CheckoutModalProps {
+  schedule?: StoreScheduleConfig;
   isOpen: boolean;
   items: CartItem[];
   brand: BrandConfig;
@@ -38,6 +40,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   isOpen,
   items,
   brand,
+  schedule,
   onClose,
   onPaid,
 }) => {
@@ -204,6 +207,11 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
         <div className="overflow-y-auto">
           {step === 'paid' && paidInfo ? (
             <div className="p-space-lg flex flex-col items-center text-center gap-space-sm">
+              <img
+                src="/logo.png"
+                alt={brand.name}
+                className="w-20 h-auto object-contain mx-auto mb-1 opacity-90 select-none"
+              />
               <div className="w-14 h-14 rounded-full bg-secondary/15 flex items-center justify-center">
                 <span className="material-symbols-outlined text-secondary text-[32px]">check_circle</span>
               </div>

@@ -306,6 +306,7 @@ export default function App() {
         isOpen={cartOpen}
         items={cartItems}
         brand={siteData.brand}
+        schedule={siteData.schedule}
         onClose={() => setCartOpen(false)}
         onUpdateQuantity={handleUpdateCartQuantity}
         onRemove={handleRemoveFromCart}
@@ -320,6 +321,7 @@ export default function App() {
         isOpen={checkoutOpen}
         items={cartItems}
         brand={siteData.brand}
+        schedule={siteData.schedule}
         onClose={handleCloseCheckout}
         onPaid={handlePaid}
       />

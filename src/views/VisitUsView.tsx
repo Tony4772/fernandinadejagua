@@ -2,13 +2,15 @@ import React from 'react';
 import { SiteData } from '../types';
 import { googleMapsEmbedUrl, googleMapsSearchUrl } from '../lib/maps';
 import { GooglePlayBadge } from '../components/GooglePlayBadge';
+import { evaluateStoreSchedule, formatTime12h } from '../lib/schedule';
 
 interface VisitUsViewProps {
   siteData: SiteData;
 }
 
 export const VisitUsView: React.FC<VisitUsViewProps> = ({ siteData }) => {
-  const { brand, visit } = siteData;
+  const { brand, visit, schedule } = siteData;
+  const scheduleStatus = evaluateStoreSchedule(schedule);
 
   return (
     <div className="flex flex-col w-full">
@@ -20,6 +22,11 @@ export const VisitUsView: React.FC<VisitUsViewProps> = ({ siteData }) => {
       {/* Header Section */}
       <section className="w-full max-w-[1320px] mx-auto px-margin md:px-margin-tablet lg:px-margin-desktop pt-space-lg pb-space-md">
         <div className="flex flex-col items-center text-center">
+          <img
+            src="/logo.png"
+            alt={brand.name}
+            className="w-24 sm:w-28 md:w-32 h-auto object-contain mx-auto mb-space-sm drop-shadow-sm select-none"
+          />
           <div className="inline-flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-surface-container-high mb-space-sm border border-surface-container-highest">
             <span className="w-1.5 h-1.5 rounded-full bg-secondary"></span>
             <span className="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant font-medium">
@@ -102,21 +109,41 @@ export const VisitUsView: React.FC<VisitUsViewProps> = ({ siteData }) => {
                   </span>
                 </div>
                 <h3 className="font-headline-sm text-headline-sm text-on-surface">
-                  {visit.scheduleTitle}
+                  {visit.scheduleTitle || 'Horario de atención'}
                 </h3>
-                <p className="font-body-sm text-body-sm text-on-surface-variant mt-1">
-                  Gestionamos cada visita con la máxima atención sensorial y protocolo individual.
-                </p>
               </div>
 
-              {/* Structured placeholder container */}
-              <div className="mt-space-md p-space-md rounded-lg bg-surface-container-low flex flex-col items-center justify-center text-center border border-dashed border-secondary/30">
-                <span className="font-label-md text-label-md uppercase tracking-wider text-on-tertiary-container mb-1 font-semibold">
-                  {visit.schedulePlaceholder}
+              {/* Live status badge */}
+              <div className="mt-space-sm inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-surface-container border border-surface-container-high self-start">
+                <span className={`w-2 h-2 rounded-full ${scheduleStatus.isOpen ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'}`}></span>
+                <span className={scheduleStatus.isOpen ? 'text-emerald-700' : 'text-rose-700'}>
+                  {scheduleStatus.badgeText}
                 </span>
-                <p className="font-body-sm text-body-sm text-on-surface-variant">
-                  {visit.scheduleNotice}
-                </p>
+              </div>
+
+              {/* Structured schedule container */}
+              <div className="mt-space-md p-space-md rounded-lg bg-surface-container-low flex flex-col gap-2 border border-secondary/30">
+                {schedule?.days?.length ? (
+                  <div className="space-y-1.5 text-xs">
+                    {schedule.days.map((d) => (
+                      <div key={d.day} className="flex justify-between items-center py-0.5 border-b border-surface-container-high/40 last:border-none">
+                        <span className="font-medium text-on-surface">{d.name}</span>
+                        <span className={d.enabled ? 'text-on-surface-variant font-mono' : 'text-rose-600 font-medium'}>
+                          {d.enabled ? `${formatTime12h(d.openTime)} – ${formatTime12h(d.closeTime)}` : 'Cerrado'}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <span className="font-label-md text-label-md uppercase tracking-wider text-on-tertiary-container mb-1 font-semibold text-center">
+                    {visit.schedulePlaceholder}
+                  </span>
+                )}
+                {visit.scheduleNotice && visit.scheduleNotice.trim().length > 0 ? (
+                  <p className="font-body-sm text-body-sm text-on-surface-variant text-center pt-1 border-t border-surface-container-high/40">
+                    {visit.scheduleNotice}
+                  </p>
+                ) : null}
               </div>
             </div>
 

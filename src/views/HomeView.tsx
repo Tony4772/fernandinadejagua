@@ -34,6 +34,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
         <div className="absolute inset-0 bg-gradient-to-t from-primary-container via-primary-container/70 to-primary-container/30"></div>
 
         <div className="relative z-10 max-w-[1320px] mx-auto px-margin md:px-margin-tablet lg:px-margin-desktop w-full flex flex-col items-center text-center">
+
           {/* Overline with golden hairlines */}
           <div className="flex items-center gap-space-sm mb-space-sm">
             <span className="h-[1px] w-8 md:w-16 bg-on-tertiary-container/60"></span>

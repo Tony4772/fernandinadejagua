@@ -222,22 +222,34 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({
               </div>
 
               {/* Atelier Assurance Tag */}
-              <div className="mt-space-lg pt-space-md flex items-center gap-space-md text-on-surface-variant border-t border-surface-container-high/40">
-                <div className="flex items-center gap-space-xs">
-                  <span className="material-symbols-outlined text-secondary text-[16px]">
-                    location_on
-                  </span>
-                  <span className="font-label-sm text-label-sm uppercase tracking-wider">
-                    {brand.district.split(',')[0]}
+              <div className="mt-space-lg pt-space-md flex items-center justify-between gap-space-md text-on-surface-variant border-t border-surface-container-high/40">
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-space-md">
+                    <div className="flex items-center gap-space-xs">
+                      <span className="material-symbols-outlined text-secondary text-[16px]">
+                        location_on
+                      </span>
+                      <span className="font-label-sm text-label-sm uppercase tracking-wider">
+                        {brand.district.split(',')[0]}
+                      </span>
+                    </div>
+                    <span className="text-on-surface-variant/40">·</span>
+                    <div className="flex items-center gap-space-xs">
+                      <span className="material-symbols-outlined text-secondary text-[16px]">eco</span>
+                      <span className="font-label-sm text-label-sm uppercase tracking-wider">
+                        {product.origin}
+                      </span>
+                    </div>
+                  </div>
+                  <span className="font-label-sm text-label-sm text-on-tertiary-container">
+                    Elaboración esmerada en lote pequeño
                   </span>
                 </div>
-                <span className="text-on-surface-variant/40">·</span>
-                <div className="flex items-center gap-space-xs">
-                  <span className="material-symbols-outlined text-secondary text-[16px]">eco</span>
-                  <span className="font-label-sm text-label-sm uppercase tracking-wider">
-                    {product.origin}
-                  </span>
-                </div>
+                <img
+                  src="/logo.png"
+                  alt="Sello de Origen Fernandina de Jagua"
+                  className="w-14 sm:w-16 h-auto object-contain opacity-85 select-none shrink-0"
+                />
               </div>
             </div>
           </div>

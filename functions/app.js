@@ -252,6 +252,47 @@ export function createApp({ db, getSecret, getProducts = async () => PRODUCTS })
   router.post('/orders', rateLimit({ max: 15, windowMs: 10 * 60 * 1000 }), async (req, res, next) => {
     try {
       const customer = validateCustomer(req.body?.customer);
+
+      // Verificación de horario comercial en zona horaria Lima
+      try {
+        const siteDoc = await db.collection('cms').doc('site').get();
+        if (siteDoc.exists) {
+          const schedule = siteDoc.data()?.schedule;
+          if (schedule && schedule.enabled && schedule.blockOrdersWhenClosed) {
+            const peruFormatter = new Intl.DateTimeFormat('en-US', {
+              timeZone: 'America/Lima',
+              hour12: false,
+              weekday: 'short',
+              hour: '2-digit',
+              minute: '2-digit',
+            });
+            const parts = peruFormatter.formatToParts(new Date());
+            const map = {};
+            for (const p of parts) map[p.type] = p.value;
+            const weekdayMap = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+            const dayOfWeek = weekdayMap[map.weekday] ?? new Date().getDay();
+            const timeString = `${map.hour.padStart(2, '0')}:${map.minute.padStart(2, '0')}`;
+            const todayConfig = (schedule.days || []).find((d) => d.day === dayOfWeek);
+
+            const isClosed =
+              !todayConfig ||
+              !todayConfig.enabled ||
+              timeString < todayConfig.openTime ||
+              timeString >= todayConfig.closeTime;
+
+            if (isClosed) {
+              throw new HttpError(
+                400,
+                schedule.closedNotice ||
+                  'El atelier se encuentra cerrado en este momento. Los pedidos en línea están pausados temporalmente.'
+              );
+            }
+          }
+        }
+      } catch (err) {
+        if (err instanceof HttpError) throw err;
+      }
+
       const products = await getProducts();
       const { items, amount } = buildOrderItems(req.body?.items, products);
 

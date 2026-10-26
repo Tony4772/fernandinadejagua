@@ -1,8 +1,10 @@
 import React from 'react';
-import { BrandConfig } from '../types';
+import { BrandConfig, StoreScheduleConfig } from '../types';
+import { evaluateStoreSchedule } from '../lib/schedule';
 import { CartItem, cartCount, cartTotal, formatSoles, MAX_ITEM_QUANTITY } from '../lib/cart';
 
 interface CartDrawerProps {
+  schedule?: StoreScheduleConfig;
   isOpen: boolean;
   items: CartItem[];
   brand: BrandConfig;
@@ -17,6 +19,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   isOpen,
   items,
   brand,
+  schedule,
   onClose,
   onUpdateQuantity,
   onRemove,
@@ -25,6 +28,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 }) => {
   if (!isOpen) return null;
 
+  const scheduleStatus = evaluateStoreSchedule(schedule);
   const total = cartTotal(items);
   const count = cartCount(items);
   const whatsappMessage = encodeURIComponent(
@@ -168,14 +172,40 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 </span>
               </div>
 
-              <button
-                type="button"
-                onClick={onCheckout}
-                className="w-full inline-flex items-center justify-center gap-space-xs px-space-lg py-space-sm rounded-lg bg-secondary text-on-secondary hover:bg-on-tertiary-container hover:text-on-primary font-label-md text-label-md uppercase tracking-wider transition-colors shadow-sm cursor-pointer"
-              >
-                <span className="material-symbols-outlined text-[18px]">credit_card</span>
-                <span>Pagar con Culqi</span>
-              </button>
+              {!scheduleStatus.canOrder && (
+                <div className="p-3 rounded-xl bg-[#34150f] border border-rose-500/40 text-rose-100 flex flex-col gap-1.5 shadow-sm">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-rose-300 uppercase tracking-wide">
+                    <span className="material-symbols-outlined text-[18px]">lock_clock</span>
+                    <span>Atelier cerrado temporalmente</span>
+                  </div>
+                  <p className="text-xs leading-relaxed text-rose-200">
+                    {scheduleStatus.message}
+                  </p>
+                  <p className="text-[11px] text-secondary-fixed">
+                    Los pedidos en línea están pausados fuera de horario. Puedes coordinar tu encargo por WhatsApp.
+                  </p>
+                </div>
+              )}
+
+              {scheduleStatus.canOrder ? (
+                <button
+                  type="button"
+                  onClick={onCheckout}
+                  className="w-full inline-flex items-center justify-center gap-space-xs px-space-lg py-space-sm rounded-lg bg-secondary text-on-secondary hover:bg-on-tertiary-container hover:text-on-primary font-label-md text-label-md uppercase tracking-wider transition-colors shadow-sm cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-[18px]">credit_card</span>
+                  <span>Pagar con Culqi</span>
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  disabled
+                  className="w-full inline-flex items-center justify-center gap-space-xs px-space-lg py-space-sm rounded-lg bg-surface-container-highest text-on-surface-variant/60 font-label-md text-label-md uppercase tracking-wider cursor-not-allowed border border-surface-container-high"
+                >
+                  <span className="material-symbols-outlined text-[18px]">lock</span>
+                  <span>Pedidos cerrados por horario</span>
+                </button>
+              )}
 
               <div className="flex gap-space-xs">
                 <div className="flex-1 inline-flex items-center justify-center gap-1 px-2 py-2 rounded-lg bg-surface-container border border-surface-container-high text-[11px] font-label-md uppercase tracking-wider text-on-surface-variant">

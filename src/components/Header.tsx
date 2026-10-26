@@ -48,7 +48,7 @@ export const Header: React.FC<HeaderProps> = ({
           <img
             alt={brand.name}
             className="h-8 sm:h-10 w-auto shrink-0 object-contain transition-transform duration-300 group-hover:scale-105"
-            src={brand.logoUrl}
+            src={brand.logoUrl && !brand.logoUrl.includes('googleusercontent.com') ? brand.logoUrl : '/logo.png'}
             referrerPolicy="no-referrer"
             onError={(event) => {
               event.currentTarget.onerror = null;

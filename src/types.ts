@@ -99,10 +99,26 @@ export interface VisitContent {
   ctaDesc: string;
 }
 
+export interface DaySchedule {
+  day: number; // 0 = Domingo, 1 = Lunes, ..., 6 = Sábado
+  name: string;
+  enabled: boolean;
+  openTime: string; // '10:00'
+  closeTime: string; // '19:00'
+}
+
+export interface StoreScheduleConfig {
+  enabled: boolean;
+  blockOrdersWhenClosed: boolean;
+  closedNotice: string;
+  days: DaySchedule[];
+}
+
 export interface SiteData {
   brand: BrandConfig;
   home: HomeContent;
   catalog: CatalogContent;
   visit: VisitContent;
   products: Product[];
+  schedule?: StoreScheduleConfig;
 }
